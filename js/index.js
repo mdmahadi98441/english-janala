@@ -2,7 +2,7 @@ const loadLesson = () => {
     fetch("https://openapi.programming-hero.com/api/levels/all")
         .then(res => res.json())
         .then(json => {
-            
+
             displayLesson(json.data)
         })
 }
@@ -12,6 +12,8 @@ const removeActive = () => {
     // console.log(lessonButtons)
     lessonButtons.forEach(btn => btn.classList.remove("active"))
 }
+
+
 
 const loadLevelWord = (id) => {
     const url = `https://openapi.programming-hero.com/api/level/${id}`
@@ -25,20 +27,54 @@ const loadLevelWord = (id) => {
         })
 }
 
-    const displayWord = (words) => {
-        //     {
-        //     "id": 5,
-        //     "level": 1,
-        //     "word": "Eager",
-        //     "meaning": "আগ্রহী",
-        //     "pronunciation": "ইগার"
-        // }
+const loadWordDetails = async (id) => {
+    const url = `https://openapi.programming-hero.com/api/word/${id}`
+    //    console.log(url)
+    const res = await fetch(url)
+    const details = await res.json()
+    // console.log(details)
+    displayWordDetails(details.data)
+}
 
-        const wordContainer = document.getElementById('word-container')
-        wordContainer.innerHTML = ``
+const displayWordDetails = (word) => {
+    
+    const detailBox = document.getElementById("details-container")
+    detailBox.innerHTML = `
+    <div class="space-y-3">
+                    <h2 class="text-2xl font-bold">${word.word}(<i class="fa-solid fa-microphone-lines"></i>${word.pronunciation})</h2>
+                <div>   
+                    <p class="text-[20px] font-semibold">meaning</p>
+                    <p class="">${word.meaning? word.meaning : "অর্থ পাওয়া যায়নি।"}</p>
+                    <br>
+                </div>    
 
-        if (words.length == 0) {
-            wordContainer.innerHTML = `
+                
+                    <h3 class="text-[20px] font-semibold">Example</h3>
+                    <p class="">${word.sentence}</p>
+                 <br>
+                    <h3 class="font-semibold text-[20px]">সমার্থক শব্দ গুলো</h3>
+                    <p class="">${word.synonyms}</p>
+
+                </div>
+    `
+    document.getElementById("my_modal").showModal()
+
+}
+
+const displayWord = (words) => {
+    //     {
+    //     "id": 5,
+    //     "level": 1,
+    //     "word": "Eager",
+    //     "meaning": "আগ্রহী",
+    //     "pronunciation": "ইগার"
+    // }
+
+    const wordContainer = document.getElementById('word-container')
+    wordContainer.innerHTML = ``
+
+    if (words.length == 0) {
+        wordContainer.innerHTML = `
         
         <div class="bangla text-center bg-gray-100 col-span-full py-5 rounded-xl space-y-2">
             
@@ -53,20 +89,20 @@ const loadLevelWord = (id) => {
 
 
         `
-            return
-        }
+        return
+    }
 
-        words.forEach(word => {
-            
-            const card = document.createElement('div')
-            card.innerHTML = `
+    words.forEach(word => {
+
+        const card = document.createElement('div')
+        card.innerHTML = `
          <div class="bg-white px-5 py-10 text-center space-y-3 rounded-md shadow-sm">
             <h2 class="text-2xl font-semibold">${word.word ? word.word : 'শব্দ পাওয়া যায়নি।'}</h2>
             <p>Meaning /Pronounciation</p>
 
             <div class="bangla text-xl font-medium">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি।"} / ${word.pronunciation ? word.pronunciation : "pronunciation পাওয়া যায়নি।"}"</div>
             <div class="flex justify-between ">
-                <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
+                <button onclick="loadWordDetails(${word.id})" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
                 <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid fa-volume"></i></button>
 
 
@@ -74,24 +110,27 @@ const loadLevelWord = (id) => {
         </div>
         `
 
-            wordContainer.append(card)
-        })
-    }
-    const displayLesson = (lessons) => {
-        const lessonContainer = document.getElementById('lesson-container')
-        lessonContainer.innerHTML = ``
+        wordContainer.append(card)
+    })
+}
 
 
 
-        for (let lesson of lessons) {
+const displayLesson = (lessons) => {
+    const lessonContainer = document.getElementById('lesson-container')
+    lessonContainer.innerHTML = ``
 
-            const newDiv = document.createElement('div')
-            newDiv.innerHTML = `
+
+
+    for (let lesson of lessons) {
+
+        const newDiv = document.createElement('div')
+        newDiv.innerHTML = `
                 
         <button id="lesson-btn-${lesson.level_no}" onclick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary font-bold lesson-btn"><i class="fa-solid fa-book-open"></i> Lesson-${lesson.level_no}</button>
                         
         `
-            lessonContainer.append(newDiv)
-        }
+        lessonContainer.append(newDiv)
     }
-    loadLesson()
+}
+loadLesson()

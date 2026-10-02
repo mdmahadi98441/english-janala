@@ -123,11 +123,12 @@
         </div>
     </section>
 
-    <section id="word-container" class="w-11/12 mx-auto bg-gray-100 rounded-md p-10 my-10 grid grid-cols-2 md:grid-cols-3 gap-6">
+    <section id="word-container"
+        class="w-11/12 mx-auto bg-gray-100 rounded-md p-10 my-10 grid grid-cols-1 md:grid-cols-3 gap-6">
 
 
         <div class="bangla text-center bg-gray-100 col-span-full py-5 rounded-xl space-y-5">
-            
+
 
 
             <p class="text-xl font-semibold text-gray-400">আপনি এখনো কোন Lesson Select করেন ন</p>
@@ -135,10 +136,40 @@
 
         </div>
 
-
-       
-
     </section>
+
+    <!-- "word": "Eager",
+"meaning": "আগ্রহী",
+"pronunciation": "ইগার",
+"level": 1,
+"sentence": "The kids were eager to open their gifts.",
+"points": 1,
+"partsOfSpeech": "adjective",
+"synonyms": [
+"enthusiastic",
+"excited",
+"keen"
+],
+"id": 5 -->
+
+
+
+
+    <!-- Open the modal using ID.showModal() method -->
+    <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+    <dialog id="my_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <div id="details-container" class="">
+               
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn btn-primary">Learning Complete</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 
 
     <script src="js/index.js"></script>
